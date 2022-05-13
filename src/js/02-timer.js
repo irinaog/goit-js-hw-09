@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
 const btnStart = document.querySelector('[data-start]');
 const refs = {
     days: document.querySelector('[data-days]'),
@@ -28,7 +29,8 @@ function dataCheck(value) {
     const date = new Date();
     if (deadline < date) {
         btnStart.disabled = true;
-        window.alert("Please choose a date in the future");
+        Notiflix.Notify.failure("Please choose a date in the future");
+        // window.alert("Please choose a date in the future");
     }
     else {
         btnStart.disabled = false;
