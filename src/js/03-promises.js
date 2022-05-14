@@ -18,8 +18,8 @@ function onFormSubmit(evt) {
   .catch(({ position, delay }) => {
     Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-  
-  amountCreatedPromise(1, formDate.amount);
+    amountCreatedPromise(1, formDate.amount);
+    
 };
 
 function amountCreatedPromise(position, amount) {
@@ -28,31 +28,37 @@ function amountCreatedPromise(position, amount) {
     step: form.step.value,
     amount: form.amount.value,
   };
+let time = Number(formDate.delay) + Number(formDate.step);
   const intervalId = setInterval(() => {
     if (position == amount) {
       clearInterval(intervalId);
       return
     };
-    createPromise(position, formDate.delay)
+    
+    createPromise(position,time)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
       .catch(({ position, delay }) => {
-        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`); 
       });
+    time += Number(formDate.step);
     position += 1;
-  }, formDate.step);
+    
+   }, formDate.step);
+   
 };
 
 function createPromise(position, delay) {
   position += 1;
+  
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
         resolve({ position, delay });
       } else {
-        reject({ position, delay });
+        reject({ position, delay});
       };
     }, delay);
   }); 
@@ -60,4 +66,4 @@ function createPromise(position, delay) {
 
 
 
-
+// Number(delay)+Number(step)
